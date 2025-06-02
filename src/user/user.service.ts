@@ -10,24 +10,26 @@ export class UserService {
     async login(user: LoginInterface) {
         const { username, email, password } = user;
 
-        const hashedPassword = await this.authService.generateHashedPassword(password)
-
-        const query = {
-            password: hashedPassword,
-        }
+        const query = {}
 
         if (username) {
-            query['username'] = username;
+            query['name'] = username;
         } else if (email) {
             query['email'] = email;
         } else {
-            throw new Error("Username or email must be provided");
+            throw new HttpException("Username or email must be provided", 401);
         }
 
-        const userData = await this.userDbService.findUser(query, { id: true });
+        const userData = await this.userDbService.findUser(query, { id: true, password: true });
 
         if (!userData) {
-            throw new Error("Invalid Credentials");
+            throw new UnauthorizedException("Invalid Credentials");
+        }
+
+        const isPasswordValid = await this.authService.comparePassword(password, userData.password);
+
+        if (!isPasswordValid) {
+            throw new UnauthorizedException("Invalid Credentials");
         }
 
         const refreshToken = await this.authService.generateRefreshToken({

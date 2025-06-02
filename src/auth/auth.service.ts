@@ -36,4 +36,8 @@ export class AuthService {
     async generateHashedPassword(password: string): Promise<string> {
         return bcrypt.hash(password, this.ConfigService.get<number>('bcrypt.saltRounds') || 10);
     }
+
+    async comparePassword(password: string, hashedPassword: string): Promise<boolean> {
+        return bcrypt.compare(password, hashedPassword);
+    }
 }
