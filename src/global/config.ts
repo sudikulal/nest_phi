@@ -7,4 +7,17 @@ export default () => ({
         password: process.env.DB_PASSWORD || 'password',
         database: process.env.DB_NAME || 'mydatabase',
     },
+    jwt: {
+        accessToken: {
+            secret: process.env.JWT_SECRET || 'defaultsecret',
+            expiresIn: process.env.JWT_ACCESS_TOKEN_EXPIRES_IN || '15m',
+        },
+        refreshToken: {
+            secret: process.env.JWT_REFRESH_SECRET || 'defaultrefreshsecret',
+            expiresIn: process.env.JWT_REFRESH_TOKEN_EXPIRES_IN || '7d',
+        },
+    },
+    bcrypt: {
+        saltRounds: parseInt(process.env.BCRYPT_SALT_ROUNDS || '10'),
+    }
 })
