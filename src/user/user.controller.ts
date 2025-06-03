@@ -6,13 +6,10 @@ import { UserService } from './user.service';
 export class UserController {
     constructor(private readonly userService: UserService) { }
     @Post("/Login")
-    async login(@Body() body: LoginDto) {
-        try {
-            const { username, email, password, new_register } = body;
-            if (new_register) return await this.userService.register({ username, email, password });
-            else return await this.userService.login({ username, email, password });
-        } catch (error) {
-            throw error
-        }
+    login(@Body() body: LoginDto) {
+        const { username, email, password, new_register } = body;
+        return new_register
+            ? this.userService.register({ username, email, password })
+            : this.userService.login({ username, email, password });
     }
 }
