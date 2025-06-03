@@ -34,16 +34,11 @@ export class UserService {
 
         const refreshToken = await this.authService.generateRefreshToken({
             userId: userData.id,
-            RefreshTokenJti: randomUUID(),
+            refreshTokenJti: randomUUID(),
         })
-
-        const accessToken = await this.authService.generateAccessToken({
-            userId: userData.id,
-        });
 
         return {
             userId: userData.id,
-            accessToken,
             refreshToken,
         }
 
@@ -79,14 +74,26 @@ export class UserService {
             RefreshTokenJti: randomUUID(),
         })
 
-        const accessToken = await this.authService.generateAccessToken({
+        return {
             userId: userData.id,
+            refreshToken,
+        }
+    }
+
+    async generateAccessToken(refreshToken: string) {
+        const payload = await this.authService.verifyRefreshToken(refreshToken);
+        if (!payload) {
+            throw new UnauthorizedException("Invalid Refresh Token");
+        }
+
+        const accessToken = await this.authService.generateAccessToken({
+            userId: payload.userId,
+            accessTokenJti: randomUUID(),
         });
 
         return {
-            userId: userData.id,
+            userId: payload.userId,
             accessToken,
-            refreshToken,
         }
     }
 }

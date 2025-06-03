@@ -28,9 +28,14 @@ export class AuthService {
     }
 
     async verifyRefreshToken(token: string): Promise<any> {
-        return this.jwtService.verifyAsync(token, {
-            secret: this.ConfigService.get<string>('jwt.refreshToken.secret'),
-        });
+        try {
+            return await this.jwtService.verifyAsync(token, {
+                secret: this.ConfigService.get<string>('jwt.refreshToken.secret'),
+            });
+
+        } catch (error) {
+            return null
+        }
     }
 
     async generateHashedPassword(password: string): Promise<string> {

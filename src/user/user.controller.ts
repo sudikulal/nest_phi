@@ -5,11 +5,19 @@ import { UserService } from './user.service';
 @Controller('user')
 export class UserController {
     constructor(private readonly userService: UserService) { }
-    @Post("/Login")
+    @Post("/login")
     login(@Body() body: LoginDto) {
         const { username, email, password, new_register } = body;
         return new_register
             ? this.userService.register({ username, email, password })
             : this.userService.login({ username, email, password });
+    }
+
+    @Post("/accessToken")
+    generateAccessToken(@Body('refreshToken') refreshToken: string) {
+        if (!refreshToken) {
+            throw new HttpException("refreshToken is required", 400);
+        }
+        return this.userService.generateAccessToken(refreshToken);
     }
 }
