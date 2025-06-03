@@ -10,9 +10,13 @@ import { AppService } from './app.service';
 import { UserModule } from './user/user.module';
 import { AuthGuard } from './auth/auth.guard';
 import { AuthModule } from './auth/auth.module';
+import { CacheModule } from '@nestjs/cache-manager';
 
 @Module({
   imports: [
+    CacheModule.register({
+      isGlobal: true,
+    }),
     ConfigModule.forRoot({
       isGlobal: true,
       load: [config],

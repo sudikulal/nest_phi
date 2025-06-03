@@ -5,3 +5,7 @@ export enum STATUS {
 }
 
 export const ALLOW_MULTI_LOGIN = process.env.ALLOW_MULTI_LOGIN || false;
+
+export enum TTL {
+    JTI_EXPIRATION = 1000 * 60 * 15,
+}

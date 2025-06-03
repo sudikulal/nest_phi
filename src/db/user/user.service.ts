@@ -25,7 +25,7 @@ export class UserDbService extends PrismaClient {
         });
     }
 
-    async updateUser(id: number, data: Prisma.UserCreateInput) {
+    async updateUser(id: number, data: Prisma.UserUpdateInput) {
         return this.user.update({
             where: { id },
             data,
