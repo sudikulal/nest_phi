@@ -1,8 +1,10 @@
 import { Body, Controller, HttpException, Post } from '@nestjs/common';
 import { LoginDto } from './dto/user.dto';
 import { UserService } from './user.service';
+import { Public } from 'src/auth/auth.decorator';
 
 @Controller('user')
+@Public()
 export class UserController {
     constructor(private readonly userService: UserService) { }
     @Post("/login")
