@@ -13,9 +13,13 @@ export class UserDbService extends PrismaClient {
         });
     }
 
-    async findUser(query: Prisma.UserWhereInput,select?: Prisma.UserSelect) {
+    async findUser(
+        where: Prisma.UserWhereInput,
+        select?: Prisma.UserSelect
+    ) {
         return this.user.findFirst({
-            where: query,
+            where,
+            select,
         });
     }
 

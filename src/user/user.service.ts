@@ -1,7 +1,7 @@
 import { HttpException, Inject, Injectable, UnauthorizedException } from '@nestjs/common';
 import { LoginInterface } from './interfaces/user.interface';
-import { UserDbService } from 'src/db/user/user.service';
-import { AuthService } from 'src/auth/auth.service';
+import { UserDbService } from '../db/user/user.service';
+import { AuthService } from '../auth/auth.service';
 import { randomUUID } from 'crypto';
 import { CACHE_MANAGER } from '@nestjs/cache-manager';
 import { Cache } from 'cache-manager';
